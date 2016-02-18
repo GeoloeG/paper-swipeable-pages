@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+  <head>
+    <title>paper-swipeable-pages tests</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <script src="../../iron-test-helpers/test-helpers.js"></script>
+    <script src="../../iron-test-helpers/mock-interactions.js"></script>
+
+    <!-- Step 1: import the element to test -->
+    <link rel="import" href="../paper-swipeable-pages.html">
+  </head>
+  <body>
+
+    <!-- You can use the document as a place to set up your fixtures. -->
+    <test-fixture id="paper-swipeable-pages-fixture">
+      <template>
+        <paper-swipeable-pages>
+          <div>Page 1</div>
+          <div>Page 2</div>
+          <div>Page 3</div>
+        </paper-swipeable-pages>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('<paper-swipeable-pages>', function() {
+
+        var myEl;
+
+        setup(function() {
+          myEl = fixture('paper-swipeable-pages-fixture');
+        });
+
+        test('check swipe is working', function() {
+        });
+
+        test('check selected is working', function() {
+        });
+
+        test('check no-cycle is working', function() {
+        });
+
+        test('check dynamic content is working', function() {
+        });
+
+      });
+    </script>
+
+  </body>
+</html>
