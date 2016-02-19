@@ -8,7 +8,7 @@ https://gemnasium.com/MeTaNoV/
 
 ## Registering to Waffle
 
-https://waffle.io/MeTaNoV/firebase-element-extended
+https://waffle.io/MeTaNoV/paper-swipeable-pages
 
 ## Registering to Travis
 

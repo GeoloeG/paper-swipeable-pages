@@ -1,6 +1,8 @@
 <link rel="import" href="../polymer/polymer.html">
 
+<link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-swipeable-pages/iron-swipeable-pages.html">
+<link rel="import" href="../dom-repeat-n/dom-repeat-n.html">
 
 <!--
 `<paper-swipeable-pages>` manages a set of pages and and provides the ability to switch
@@ -28,6 +30,8 @@ want to be swiped:
       cursor: default;
     }
 
+TODO PG: defined custom properties and mixins
+
 @demo demo/index.html
 @hero hero.svg
 -->
@@ -36,39 +40,38 @@ want to be swiped:
   <style>
     :host {
       display: block;
-      position: relative;
-      overflow-x: hidden;
     }
-    :host > ::content > * {
-      position: absolute;
-      top: 0;
+    #page-selector {
+      position: fixed;
       width: 100%;
-      height: 100%;
+      bottom: 10vh;
+      @apply(--layout-horizontal);
+      @apply(--layout-center-center);
     }
-    :host > ::content > :not(.iron-selected):not(.iron-last-selected):not(.paper-swiping) {
-      display: none !important;
+    .page-selection {
+      opacity: 0.35;
+      fill: white;
+      margin: 5vw;
+      @apply(--psp-selection-fill);
     }
-    .pageSelection {
-      opacity: 0.3;
+    .page-selection[selected] {
+      opacity: 0.85;
+      @apply(--psp-selection-fill-selected);
     }
-    .pageSelection[selected] {
-      opacity: 1;
-    }
-    /*TODO PG: defined custom properties and mixins*/
   </style>
 
   <template>
-    <iron-swipeable-pages selectedIndex="[[selected]]">
-      <content id="pagesContent"></content>
-      <div id="page_selector">
-        <template is="dom-repeat-n" count="{{pageCount}}">
-          <svg>
-            <circle class$="pageSelection" selected="_computeSelected(selected, index)" cx="100" cy="100" r="100"/>
-          </svg>
-        </template>
-        <content id="pageSelectorLabel"></content>
-      </div>
+    <iron-swipeable-pages id="isp" selected="{{_selected}}" no-cycle>
+      <content></content>
     </iron-swipeable-pages>
+    <div id="page-selector">
+      <template is="dom-repeat-n" count="[[_pageCount]]">
+        <svg class="page-selection" selected$="{{_computeSelected(_selected, index)}}"
+             width="30" height="30">
+          <circle cx="15" cy="15" r="15"/>
+        </svg>
+      </template>
+    </div>
   </template>
 
   <script>
@@ -77,25 +80,22 @@ want to be swiped:
         is: 'paper-swipeable-pages',
 
         properties: {
-          /**
-           * TODO.
-           */
-          TODO: {
+          _selected: {
             type: Number,
-            value: 250
+            value: 0,
+          },
+          _pageCount: {
+            type: Number,
+            value: 0,
           },
         },
 
         // Element Lifecycle
-
-        ready: function() {
-          // TODO PG: calculate page Count
+        attached: function() {
+          this._pageCount = this.$.isp.items.length;
         },
 
-        // Element page set up
-
-        // Element page management
-
+        // Element behavior
         _computeSelected: function(selected, index) {
           return selected == index;
         }
