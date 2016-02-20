@@ -41,7 +41,7 @@ TODO PG: defined custom properties and mixins
     :host {
       display: block;
     }
-    #page-selector {
+    #page_selector {
       position: fixed;
       width: 100%;
       bottom: 10vh;
@@ -53,9 +53,11 @@ TODO PG: defined custom properties and mixins
       fill: white;
       margin: 5vw;
       @apply(--psp-selection-fill);
+      -webkit-transition: opacity 3s;
+      transition: opacity 3s;
     }
     .page-selection[selected] {
-      opacity: 0.85;
+      opacity: 1;
       @apply(--psp-selection-fill-selected);
     }
   </style>
@@ -64,7 +66,7 @@ TODO PG: defined custom properties and mixins
     <iron-swipeable-pages id="isp" selected="{{_selected}}" no-cycle>
       <content></content>
     </iron-swipeable-pages>
-    <div id="page-selector">
+    <div id="page_selector">
       <template is="dom-repeat-n" count="[[_pageCount]]">
         <svg class="page-selection" selected$="{{_computeSelected(_selected, index)}}"
              width="30" height="30">
@@ -90,13 +92,38 @@ TODO PG: defined custom properties and mixins
           },
         },
 
+        listeners: {
+          'track': '_onTrack'
+        },
+
         // Element Lifecycle
         attached: function() {
           this._pageCount = this.$.isp.items.length;
         },
 
         // Element behavior
+        _onTrack: function(event) {
+          var track = event.detail;
+
+          if (track.state === 'start') {
+            var pageSelections = Polymer.dom(this.$.page_selector).children;
+            pageSelections.forEach(function(pageSelection, index) {
+              if (this._selected == index) {
+                pageSelection.style.opacity = '1';
+              } else {
+                pageSelection.style.opacity = '0.35';
+              }
+            }, this);
+          }
+        },
+
         _computeSelected: function(selected, index) {
+          this.debounce("selectionDone", function() {
+            var pageSelections = Polymer.dom(this.$.page_selector).children;
+            pageSelections.forEach(function(pageSelection) {
+              pageSelection.style.opacity = '0';
+            });
+          }, 2000);
           return selected == index;
         }
       });
