@@ -2,11 +2,15 @@
 
 <link rel="import" href="../iron-flex-layout/iron-flex-layout.html">
 <link rel="import" href="../iron-swipeable-pages/iron-swipeable-pages.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../dom-repeat-n/dom-repeat-n.html">
+
+<link rel="import" href="./paper-swipeable-pages-icons.html">
 
 <!--
 `<paper-swipeable-pages>` manages a set of pages and and provides the ability to switch
-between them by swiping gesture.
+between them by swiping gesture. In addition to the basic `iron-*` counterpart, it
+provides by default navigation arrows and dots position indicator.
 
 Example:
 
@@ -30,7 +34,15 @@ want to be swiped:
       cursor: default;
     }
 
-TODO PG: defined custom properties and mixins
+### Styling
+
+The following custom properties / mixins are available for styling:
+
+Custom property | Description | Default
+----------------|-------------|----------
+`--paper-swipeable-pages-arrows` | Mixin applied to the arrow icon-button. | `{}`
+`--paper-swipeable-pages-indicator` | Mixin applied to the indicator. | `{}`
+`--paper-swipeable-pages-indicator-selected` | Mixin applied to the indicator when selected. | `{}`
 
 @demo demo/index.html
 @hero hero.svg
@@ -44,21 +56,42 @@ TODO PG: defined custom properties and mixins
     #page_selector {
       position: fixed;
       width: 100%;
-      bottom: 10vh;
+      bottom: 5vh;
       @apply(--layout-horizontal);
       @apply(--layout-center-center);
     }
-    .page-selection {
+    .page-indicator {
       opacity: 0.35;
-      fill: white;
+      fill: var(--light-primary-color);
       margin: 5vw;
-      @apply(--psp-selection-fill);
+      width: 30px;
+      height: 30px;
+      @apply(--paper-swipeable-pages-indicator);
       -webkit-transition: opacity 3s;
       transition: opacity 3s;
     }
-    .page-selection[selected] {
+    .page-indicator[selected] {
       opacity: 1;
-      @apply(--psp-selection-fill-selected);
+      @apply(--paper-swipeable-pages-indicator-selected);
+    }
+    paper-icon-button {
+      width: 8vw;
+      max-width: 60px;
+      height: 8vw;
+      max-height: 60px;
+      margin: 0;
+      padding: 0;
+      position: absolute;
+      top: calc(50% - 4vw);
+      color: var(--light-primary-color);
+      opacity: 0.85;
+      @apply(--paper-swipeable-pages-arrows);
+    }
+    .left {
+      left: 0;
+    }
+    .right {
+      right: 0;
     }
   </style>
 
@@ -66,14 +99,27 @@ TODO PG: defined custom properties and mixins
     <iron-swipeable-pages id="isp" selected="{{_selected}}" no-cycle>
       <content></content>
     </iron-swipeable-pages>
-    <div id="page_selector">
-      <template is="dom-repeat-n" count="[[_pageCount]]">
-        <svg class="page-selection" selected$="{{_computeSelected(_selected, index)}}"
-             width="30" height="30">
-          <circle cx="15" cy="15" r="15"/>
-        </svg>
-      </template>
-    </div>
+    <template is="dom-if" if="[[!noIndicator]]">
+      <div id="page-selector">
+        <template is="dom-repeat-n" count="[[_pageCount]]">
+          <svg class="page-indicator" selected$="{{_computeSelected(_selected, index)}}">
+            <circle cx="15" cy="15" r="15"/>
+          </svg>
+        </template>
+      </div>
+    </template>
+    <template is="dom-if" if="[[!noArrow]]">
+      <paper-icon-button
+        class="left"
+        icon="paper-swipeable-pages-icons:arrow-back"
+        on-tap="_selectPreviousPage">
+      </paper-icon-button>
+      <paper-icon-button
+        class="right"
+        icon="paper-swipeable-pages-icons:arrow-forward"
+        on-tap="_selectNextPage">
+      </paper-icon-button>      
+    </template>
   </template>
 
   <script>
@@ -89,6 +135,20 @@ TODO PG: defined custom properties and mixins
           _pageCount: {
             type: Number,
             value: 0,
+          },
+          /**
+           * Hides the arrows.
+           */
+          noArrow: {
+            type: Boolean,
+            value: false
+          },
+          /**
+           * Hides the page indicators.
+           */
+          noIndicator: {
+            type: Boolean,
+            value: false
           },
         },
 

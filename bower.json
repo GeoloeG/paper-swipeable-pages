@@ -21,7 +21,10 @@
     "swipeable",
     "content",
     "selector",
-    "selection"
+    "selection",
+    "indicator",
+    "navigation",
+    "arrow"
   ],
   "main": "paper-swipeable-pages.html",
   "private": false,
@@ -39,6 +42,9 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
     "iron-swipeable-pages": "iron-swipeable-pages#^1.0.0",
+    "iron-icon": "PolymerElements/iron-icon#^1.0.0",
+    "iron-iconset-svg": "PolymerElements/iron-iconset-svg#^1.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#^1.0.0",
     "dom-repeat-n": "dom-repeat-n#^1.0.0"
   },
   "devDependencies": {
