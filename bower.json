@@ -30,10 +30,10 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git://github.com/MeTaNoV/paper-swipeable-pages.git"
+    "url": "git://github.com/GeoloeG/paper-swipeable-pages.git"
   },
   "license": "MIT",
-  "homepage": "https://github.com/MeTaNoV/paper-swipeable-pages/",
+  "homepage": "https://github.com/GeoloeG/paper-swipeable-pages/",
   "ignore": [
     "/.*",
     "/test/",
