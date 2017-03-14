@@ -57,8 +57,8 @@ Custom property | Description | Default
       position: fixed;
       width: 100%;
       bottom: 5vh;
-      @apply(--layout-horizontal);
-      @apply(--layout-center-center);
+      @apply --layout-horizontal;
+      @apply --layout-center-center;
     }
     .page-indicator {
       opacity: 0.35;
@@ -66,13 +66,13 @@ Custom property | Description | Default
       margin: 5vw;
       width: 30px;
       height: 30px;
-      @apply(--paper-swipeable-pages-indicator);
+      @apply --paper-swipeable-pages-indicator;
       -webkit-transition: opacity 3s;
       transition: opacity 3s;
     }
     .page-indicator[selected] {
       opacity: 1;
-      @apply(--paper-swipeable-pages-indicator-selected);
+      @apply --paper-swipeable-pages-indicator-selected;
     }
     paper-icon-button {
       width: 8vw;
@@ -85,7 +85,7 @@ Custom property | Description | Default
       top: calc(50% - 4vw);
       color: var(--light-primary-color);
       opacity: 0.85;
-      @apply(--paper-swipeable-pages-arrows);
+      @apply --paper-swipeable-pages-arrows;
     }
     .left {
       left: 0;
